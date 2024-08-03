@@ -1,0 +1,63 @@
+version: "3.8"
+services:
+  eureka-server:
+    build: ./eureka_server
+    container_name: EUREKA_SERVER
+    restart: always
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_APPLICATION_NAME=eureka_server
+      - EUREKA_CLIENT_FETCHREGISTRY=false
+      - EUREKA_CLIENT_REGISTERWITHEUREKA=false
+
+  customer:
+    build: ./customer
+    container_name: CUSTOMER
+    restart: always
+    depends_on:
+      - eureka-server
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_APPLICATION_NAME=customer
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+
+  order1:
+    build: ./order
+    container_name: ORDER1
+    restart: always
+    depends_on:
+      - eureka-server
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_APPLICATION_NAME=order
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - SERVER_PORT=8080
+
+  order2:
+    build: ./order
+    container_name: ORDER2
+    restart: always
+    depends_on:
+      - eureka-server
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_APPLICATION_NAME=order
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - SERVER_PORT=8082
+
+  order3:
+    build: ./order
+    container_name: ORDER3
+    restart: always
+    depends_on:
+      - eureka-server
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_APPLICATION_NAME=order
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - SERVER_PORT=8083
