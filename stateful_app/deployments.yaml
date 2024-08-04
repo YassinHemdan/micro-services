@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  labels:
+    tier: backend
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: yassiin/backend-img:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://postgresdb-postgresql-ha-pgpool:5432/helm"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "postgres"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "postgres"
+        - name: SPRING_DATASOURCE_JPA_HIBERNATE_DDL_AUTO
+          value: "update"
+        - name: SPRING_DATASOURCE_JPA_SHOW_SQL
+          value: "true"
+        - name: SPRING_DATASOURCE_JPA_PROPERTIES_HIBERNATE_DIALECT
+          value: "org.hibernate.dialect.PostgreSQLDialect"
+        - name: SPRING_DATASOURCE_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL
+          value: "true"
