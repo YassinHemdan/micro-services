@@ -21,4 +21,4 @@ persistence:
   size: 7Gi
   storageClass: standard
 pgpool:
-  replicaCount: 3
+  replicaCount: 2

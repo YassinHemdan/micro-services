@@ -5,7 +5,7 @@ metadata:
   labels:
     tier: backend
 spec:
-  replicas: 5
+  replicas: 3
   selector:
     matchLabels:
       app: backend
@@ -21,16 +21,37 @@ spec:
         - containerPort: 8080
         env:
         - name: SPRING_DATASOURCE_URL
-          value: "jdbc:postgresql://postgresdb-postgresql-ha-pgpool:5432/helm"
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: SPRING_DATASOURCE_URL
         - name: SPRING_DATASOURCE_USERNAME
-          value: "postgres"
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: SPRING_DATASOURCE_USERNAME
         - name: SPRING_DATASOURCE_PASSWORD
-          value: "postgres"
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: SPRING_DATASOURCE_PASSWORD
         - name: SPRING_DATASOURCE_JPA_HIBERNATE_DDL_AUTO
-          value: "update"
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: SPRING_DATASOURCE_JPA_HIBERNATE_DDL_AUTO
         - name: SPRING_DATASOURCE_JPA_SHOW_SQL
-          value: "true"
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: SPRING_DATASOURCE_JPA_SHOW_SQL
         - name: SPRING_DATASOURCE_JPA_PROPERTIES_HIBERNATE_DIALECT
-          value: "org.hibernate.dialect.PostgreSQLDialect"
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: SPRING_DATASOURCE_JPA_PROPERTIES_HIBERNATE_DIALECT
         - name: SPRING_DATASOURCE_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL
-          value: "true"
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: SPRING_DATASOURCE_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL
