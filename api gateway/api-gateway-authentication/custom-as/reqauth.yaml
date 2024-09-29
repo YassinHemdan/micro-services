@@ -1,0 +1,12 @@
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: "jwt-example"
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  jwtRules:
+  - issuer: "http://localhost:9090"
+    jwksUri: "http://10.105.160.185:80/oauth2/jwks"

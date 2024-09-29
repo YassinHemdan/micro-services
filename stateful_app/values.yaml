@@ -1,0 +1,24 @@
+postgresql:
+  replicaCount: 3
+  updateStrategy:
+    type: RollingUpdate
+  syncReplication: true
+  username: postgres
+  password: postgres
+  database: helm
+  initdbScripts:
+    init.sql: |
+      create table users(
+      user_id int,
+      username varchar(50) not null unique,
+      constraint user_pk primary key(user_id)
+      );
+      create sequence users_seq owned by users.user_id;
+      insert into users values(nextval('users_seq'), 'yassin');
+    
+
+persistence:
+  size: 7Gi
+  storageClass: standard
+pgpool:
+  replicaCount: 2

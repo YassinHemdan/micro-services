@@ -1,0 +1,9 @@
+# postgresql:
+#   enabled: true
+#   auth:
+#     postgresPassword: ""
+#     username: bn_keycloak
+#     password: postgres
+#     database: bitnami_keycloak
+#   architecture: standalone
+replicaCount: 3

@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: serviceA
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,circuitbreakers"
+  health:
+    circuitbreakers:
+      enabled: true
+
+resilience4j:
+  circuitbreakers:
+    instances:
+      serviceB:
+        sliding-window-type: count_based
+        slidingWindowSize: 4
+        failureRateThreshold: 50
+        permittedNumberOfCallsInHalfOpenState: 2
+        automatic-transition-from-open-to-half-open-enabled: true
+        waitDurationInOpenState: 5000
